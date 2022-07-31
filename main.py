@@ -20,9 +20,6 @@ FrostDays = pull_data('FrostDays')
 Rain = pull_data('Rain')
 SunHours = pull_data('SunHours')
 
-fig, ax = plt.subplots()
-
-
 def calculate_coefficients(t, data):
     #  modelling as (a + b*t + c*cos(wt) + d*sin(wt))
     #  determine x=[a,b,c,d] from Ax=b, where b is known, and A comes from the model above
@@ -39,6 +36,7 @@ print(calculate_coefficients(Time, SunHours))
 
 
 def plot_data(t, data, name):
+    fig, ax = plt.subplots()
     a, b, c, d, w = calculate_coefficients(t, data)  # calculate the coefficients for the model
 
     def f(t):
@@ -49,9 +47,10 @@ def plot_data(t, data, name):
     ax.plot(t_smooth, y, label="Model", linewidth=0.2)  # plot the model
     ax.set_xlabel("Time (Years)")
     ax.set_ylabel(name)
-    plt.legend()
+    ax.legend()
     plt.savefig(f"{name}_graph.pdf")
-    plt.clf()
 
+plot_data(Time, MaxTemp, "Max Temp")
+plot_data(Time, MinTemp, "Min Temp")
+plot_data(Time, SunHours, "Sun Hours")
 
-plot_data(Time, SunHours, "SunHours")
