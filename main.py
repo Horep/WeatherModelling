@@ -36,7 +36,7 @@ print(calculate_coefficients(Time, SunHours))
 
 
 def plot_data(t, data, name):
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots()  # make the figure and axes for plotting
     a, b, c, d, w = calculate_coefficients(t, data)  # calculate the coefficients for the model
 
     def f(t):
@@ -44,12 +44,15 @@ def plot_data(t, data, name):
     t_smooth = np.linspace(1941, 2022.5, 50000)  # smooth time
     y = f(t_smooth)
     ax.plot(t, data, label="Actual", linewidth=0.2)  # plot the actual data
-    ax.plot(t_smooth, y, label="Model", linewidth=0.2)  # plot the model
-    ax.set_xlabel("Time (Years)")
-    ax.set_ylabel(name)
-    ax.legend()
-    plt.savefig(f"{name}_graph.pdf")
+    ax.plot(t_smooth, y, label=r"$a + bt + c\cos + d\sin$", linewidth=0.2)  # plot the model
+    ax.set_xlabel("Time (Years)")  # set the x label
+    ax.set_ylabel(name)  # set the y label
+    ax.set_title(f"a={round(a,2)},b={round(b,2)},c={round(c,2)},d={round(d,2)}")  # set the title with a,b,c,d
+    ax.legend()  # display the legend
+    plt.savefig(f"{name}_graph.pdf")  # save the figure with the correct name
 
+
+#  run the above functions for MaxTemp, MinTemp, SunHours
 plot_data(Time, MaxTemp, "Max Temp")
 plot_data(Time, MinTemp, "Min Temp")
 plot_data(Time, SunHours, "Sun Hours")
